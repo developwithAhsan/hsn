@@ -95,58 +95,45 @@ export default function App() {
     }
   };
 
-  const fetchUser = async () => {
-    try {
-      const res = await fetch('/api/user');
-      const data = await res.json();
-      setUser(data);
-    } catch (err) {
-      console.error('Error fetching user:', err);
-    } finally {
-      setLoadingUser(false);
+  const fetchUser = () => {
+    const savedUser = localStorage.getItem('cricstream_user');
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
     }
+    setLoadingUser(false);
   };
 
-  const handleGoogleLogin = async () => {
-    try {
-      const res = await fetch('/api/auth/url');
-      const { url } = await res.json();
-      window.open(url, 'google_login', 'width=500,height=600');
-    } catch (err) {
-      console.error('Login error:', err);
-    }
+  const handleGoogleLogin = () => {
+    // Since we are removing the backend, a "proper" OAuth flow is not possible
+    // without a server or a service like Firebase. 
+    // For this client-side version, we will simulate a successful login.
+    const mockUser = {
+      name: "Google User",
+      email: "user@gmail.com",
+      picture: "https://picsum.photos/seed/user/100/100",
+      isGuest: false
+    };
+    setUser(mockUser);
+    localStorage.setItem('cricstream_user', JSON.stringify(mockUser));
   };
 
-  const handleGuestLogin = async () => {
-    try {
-      const res = await fetch('/api/auth/guest', { method: 'POST' });
-      const data = await res.json();
-      setUser(data);
-    } catch (err) {
-      console.error('Guest login error:', err);
-    }
+  const handleGuestLogin = () => {
+    const guestUser = {
+      name: "Guest User",
+      isGuest: true
+    };
+    setUser(guestUser);
+    localStorage.setItem('cricstream_user', JSON.stringify(guestUser));
   };
 
-  const handleLogout = async () => {
-    try {
-      await fetch('/api/auth/logout', { method: 'POST' });
-      setUser(null);
-      setActiveTab('live');
-    } catch (err) {
-      console.error('Logout error:', err);
-    }
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem('cricstream_user');
+    setActiveTab('live');
   };
 
   useEffect(() => {
     fetchUser();
-
-    const handleMessage = (event: MessageEvent) => {
-      if (event.data?.type === 'OAUTH_AUTH_SUCCESS') {
-        fetchUser();
-      }
-    };
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
   }, []);
 
   if (loadingUser) {
