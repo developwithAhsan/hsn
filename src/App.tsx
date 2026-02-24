@@ -32,7 +32,7 @@ import {
   Zap,
   ZapOff
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 // Mock data for the app
 const CHANNELS = [
@@ -184,22 +184,37 @@ export default function App() {
   if (!user) {
     return (
       <div className="flex flex-col min-h-screen bg-bg text-text-primary w-full max-w-7xl mx-auto relative overflow-hidden shadow-2xl border-x border-border items-center justify-center p-6 text-center">
+        <div className="bg-mesh"></div>
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="max-w-md w-full"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="max-w-md w-full relative z-10"
         >
-          <div className="w-20 h-20 bg-emerald-500 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-lg shadow-emerald-500/20">
-            <Trophy className="w-10 h-10 text-white dark:text-black" />
-          </div>
-          <h1 className="text-4xl font-bold mb-2 tracking-tight">CricStream Live</h1>
-          <p className="text-emerald-500 text-xs font-bold uppercase tracking-[0.3em] mb-6">Your Ultimate Cricket Companion</p>
-          <p className="text-text-secondary mb-12 text-lg">Your ultimate destination for live cricket and expert insights.</p>
+          <motion.div 
+            animate={{ 
+              y: [0, -10, 0],
+              rotate: [0, 5, -5, 0]
+            }}
+            transition={{ 
+              duration: 6, 
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+            className="w-24 h-24 bg-emerald-500 rounded-[2rem] flex items-center justify-center mx-auto mb-10 shadow-2xl shadow-emerald-500/30"
+          >
+            <Trophy className="w-12 h-12 text-white dark:text-black" />
+          </motion.div>
+          <h1 className="text-5xl font-black mb-2 tracking-tighter gradient-text">CricStream Live</h1>
+          <p className="text-emerald-500 text-[10px] font-black uppercase tracking-[0.5em] mb-8 opacity-80">Your Ultimate Cricket Companion</p>
+          <p className="text-text-secondary mb-12 text-lg font-medium leading-relaxed">Experience the game like never before with real-time insights and live action.</p>
           
           <div className="space-y-4">
-            <button 
+            <motion.button 
+              whileHover={{ scale: 1.02, y: -2 }}
+              whileTap={{ scale: 0.98 }}
               onClick={handleGoogleLogin}
-              className="w-full bg-emerald-500 text-white dark:text-black py-4 rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-emerald-600 dark:hover:bg-emerald-400 transition-colors shadow-xl"
+              className="w-full bg-emerald-500 text-white dark:text-black py-5 rounded-2xl font-black flex items-center justify-center gap-3 hover:bg-emerald-600 dark:hover:bg-emerald-400 transition-all shadow-xl shadow-emerald-500/20"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -208,17 +223,19 @@ export default function App() {
                 <path fill="currentColor" opacity="0.4" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
               </svg>
               Sign in with Google
-            </button>
-            <button 
+            </motion.button>
+            <motion.button 
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               onClick={handleGuestLogin}
-              className="w-full bg-surface border border-border text-text-primary py-4 rounded-2xl font-bold hover:bg-zinc-100 dark:hover:bg-white/5 transition-colors"
+              className="w-full bg-surface/50 backdrop-blur-md border border-border text-text-primary py-5 rounded-2xl font-black hover:bg-zinc-100 dark:hover:bg-white/5 transition-all"
             >
               Continue as Guest
-            </button>
+            </motion.button>
           </div>
           
-          <p className="mt-12 text-xs text-text-secondary">
-            By continuing, you agree to our <button onClick={() => setViewingDoc('privacy')} className="text-emerald-500 font-medium">Privacy Policy</button> and <button onClick={() => setViewingDoc('services')} className="text-emerald-500 font-medium">Terms of Service</button>.
+          <p className="mt-16 text-[10px] text-text-secondary font-bold uppercase tracking-widest opacity-60">
+            Secure & Private • No Data Collection
           </p>
         </motion.div>
 
@@ -280,17 +297,22 @@ export default function App() {
 
   return (
     <div className="flex flex-col min-h-screen bg-bg text-text-primary w-full max-w-7xl mx-auto relative overflow-hidden shadow-2xl border-x border-border">
+      <div className="bg-mesh"></div>
       {/* Header */}
       <header className="px-6 md:px-12 pt-8 pb-4 flex justify-between items-center sticky top-0 bg-bg/80 backdrop-blur-lg z-50">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center">
-            <Trophy className="w-5 h-5 text-white dark:text-black" />
+        <motion.div 
+          initial={{ x: -20, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          className="flex items-center gap-3"
+        >
+          <div className="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
+            <Trophy className="w-6 h-6 text-white dark:text-black" />
           </div>
           <div>
-            <h1 className="text-xl font-bold tracking-tight leading-none">CricStream</h1>
-            <p className="text-[10px] text-text-secondary font-medium uppercase tracking-wider mt-0.5">Live Cricket Companion</p>
+            <h1 className="text-2xl font-black tracking-tighter leading-none gradient-text">CricStream</h1>
+            <p className="text-[10px] text-text-secondary font-black uppercase tracking-[0.2em] mt-1 opacity-70">Live Companion</p>
           </div>
-        </div>
+        </motion.div>
         <div className="flex gap-4">
           <button 
             onClick={toggleTheme}
@@ -318,10 +340,10 @@ export default function App() {
               <section className="mb-8">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-                    <h2 className="text-sm font-semibold uppercase tracking-wider text-text-secondary">Live Now</h2>
+                    <div className="w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(239,68,68,0.5)]"></div>
+                    <h2 className="text-xs font-black uppercase tracking-[0.2em] text-text-secondary">Live Now</h2>
                   </div>
-                  <span className="text-xs font-medium text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded">{selectedChannel.name}</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-emerald-500 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">{selectedChannel.name}</span>
                 </div>
                 
                 <motion.div 
@@ -403,19 +425,24 @@ export default function App() {
 
             <div className="lg:col-span-1 space-y-8">
               {/* Quick Actions */}
-              <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-4">
                 {[
                   { icon: TrendingUp, label: 'Stats', color: 'text-blue-400' },
                   { icon: Calendar, label: 'Fixtures', color: 'text-purple-400' },
                   { icon: Trophy, label: 'Rankings', color: 'text-amber-400' },
                   { icon: Play, label: 'Highlights', color: 'text-red-400' },
                 ].map((item, i) => (
-                  <button key={i} className="flex items-center gap-4 p-4 glass-card group hover:bg-zinc-100 dark:hover:bg-white/10 transition-all">
+                  <motion.button 
+                    key={i} 
+                    whileHover={{ scale: 1.05, y: -5 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="flex items-center gap-4 p-4 glass-card group hover:bg-zinc-100 dark:hover:bg-white/10 transition-all"
+                  >
                     <div className={`w-10 h-10 rounded-xl bg-bg flex items-center justify-center group-hover:bg-surface transition-all border border-border`}>
                       <item.icon className={`w-5 h-5 ${item.color}`} />
                     </div>
-                    <span className="text-xs font-medium text-text-primary">{item.label}</span>
-                  </button>
+                    <span className="text-xs font-bold text-text-primary uppercase tracking-wider">{item.label}</span>
+                  </motion.button>
                 ))}
               </div>
 
@@ -432,19 +459,23 @@ export default function App() {
                 </div>
                 
                 <div className="space-y-4">
-                  {STATIC_BLOGS.slice(0, 4).map((blog) => (
-                    <button 
+                  {STATIC_BLOGS.slice(0, 4).map((blog, idx) => (
+                    <motion.button 
                       key={blog.id} 
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: idx * 0.1 }}
+                      whileHover={{ x: 5 }}
                       onClick={() => setSelectedBlog(blog)}
                       className="w-full text-left block glass-card p-4 hover:bg-zinc-100 dark:hover:bg-white/10 transition-colors group"
                     >
                       <div className="flex justify-between items-start mb-2">
-                        <span className="text-[10px] font-bold text-emerald-500 uppercase tracking-widest">{blog.category}</span>
+                        <span className="text-[10px] font-black text-emerald-500 uppercase tracking-widest">{blog.category}</span>
                         <ChevronRight className="w-4 h-4 text-text-secondary group-hover:text-emerald-500 transition-colors" />
                       </div>
-                      <h3 className="font-bold text-sm leading-tight mb-2 line-clamp-2">{blog.title}</h3>
+                      <h3 className="font-bold text-sm leading-tight mb-2 line-clamp-2 group-hover:text-emerald-500 transition-colors">{blog.title}</h3>
                       <p className="text-xs text-text-secondary line-clamp-1">{blog.excerpt}</p>
-                    </button>
+                    </motion.button>
                   ))}
                 </div>
               </section>
@@ -467,31 +498,44 @@ export default function App() {
         )}
 
         {activeTab === 'news' && (
-          <div className="space-y-6 py-4">
-            <h2 className="text-2xl font-bold px-2">Cricket Knowledge Hub</h2>
+          <div className="space-y-8 py-4">
+            <motion.h2 
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="text-3xl font-black px-2 tracking-tighter"
+            >
+              Cricket Knowledge Hub
+            </motion.h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {STATIC_BLOGS.map((blog) => (
-                <button 
+              {STATIC_BLOGS.map((blog, idx) => (
+                <motion.button 
                   key={blog.id} 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.05 }}
+                  whileHover={{ y: -8, scale: 1.02 }}
                   onClick={() => setSelectedBlog(blog)}
-                  className="w-full text-left glass-card p-6 block hover:bg-zinc-100 dark:hover:bg-white/10 transition-colors group flex flex-col h-full"
+                  className="w-full text-left glass-card p-6 block hover:bg-zinc-100 dark:hover:bg-white/10 transition-all group flex flex-col h-full relative overflow-hidden"
                 >
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-bold text-emerald-500 uppercase tracking-widest">{blog.category}</span>
-                    <span className="text-[10px] text-text-secondary">{blog.date}</span>
+                  <div className="absolute top-0 left-0 w-1 h-full bg-emerald-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></div>
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-[10px] font-black text-emerald-500 uppercase tracking-[0.2em]">{blog.category}</span>
+                    <span className="text-[10px] text-text-secondary font-bold">{blog.date}</span>
                   </div>
-                  <h3 className="text-lg font-bold mt-1 mb-3 group-hover:text-emerald-500 transition-colors line-clamp-2">{blog.title}</h3>
-                  <p className="text-sm text-text-secondary mb-4 line-clamp-3 flex-1">{blog.excerpt}</p>
+                  <h3 className="text-xl font-black mt-1 mb-4 group-hover:text-emerald-500 transition-colors line-clamp-2 leading-tight tracking-tight">{blog.title}</h3>
+                  <p className="text-sm text-text-secondary mb-6 line-clamp-3 flex-1 font-medium leading-relaxed">{blog.excerpt}</p>
                   <div className="flex items-center justify-between mt-auto pt-4 border-t border-border">
-                    <div className="flex items-center gap-2 text-[10px] text-text-secondary">
-                      <User className="w-3 h-3" />
+                    <div className="flex items-center gap-2 text-[10px] text-text-secondary font-bold uppercase tracking-wider">
+                      <div className="w-6 h-6 rounded-full bg-emerald-500/10 flex items-center justify-center">
+                        <User className="w-3 h-3 text-emerald-500" />
+                      </div>
                       <span>{blog.author}</span>
                     </div>
-                    <span className="text-emerald-500 text-xs font-bold flex items-center gap-1">
+                    <span className="text-emerald-500 text-xs font-black flex items-center gap-1 group-hover:gap-2 transition-all">
                       Read Full <ChevronRight className="w-4 h-4" />
                     </span>
                   </div>
-                </button>
+                </motion.button>
               ))}
             </div>
           </div>
@@ -514,8 +558,8 @@ export default function App() {
                       )}
                     </div>
                     <div>
-                      <p className="font-bold text-text-primary">{user.name}</p>
-                      <p className="text-[10px] text-text-secondary">{user.isGuest ? 'Guest Account' : user.email}</p>
+                      <p className="font-bold text-text-primary">{user?.name || 'User'}</p>
+                      <p className="text-[10px] text-text-secondary">{user?.isGuest ? 'Guest Account' : (user?.email || 'No email')}</p>
                     </div>
                   </div>
                   <button 
